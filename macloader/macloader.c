@@ -177,19 +177,17 @@ int main() {
         strncasecmp(mac_addr_half, "60:21:c0", 9) == 0 ||
         strncasecmp(mac_addr_half, "88:30:8a", 9) == 0 ||
         strncasecmp(mac_addr_half, "f0:27:65", 9) == 0 ||
-        strncasecmp(mac_addr_half, "B4:62:93", 9) == 0 ||
-        strncasecmp(mac_addr_half, "5C:F8:A1", 9) == 0 ||
-        strncasecmp(mac_addr_half, "08:D4:2B", 9) == 0 ||
-        strncasecmp(mac_addr_half, "60:21:C0", 9) == 0 ||
-        strncasecmp(mac_addr_half, "B8:C6:8E", 9) == 0 ||
-        strncasecmp(mac_addr_half, "A8:06:00", 9) == 0 ||
-        strncasecmp(mac_addr_half, "BC:20:A4", 9) == 0 ||
-        strncasecmp(mac_addr_half, "98:52:B1", 9) == 0 ||
-        strncasecmp(mac_addr_half, "28:CC:01", 9) == 0 ||
-        strncasecmp(mac_addr_half, "88:30:8A", 9) == 0 ||
+        strncasecmp(mac_addr_half, "b4:62:93", 9) == 0 ||
+        strncasecmp(mac_addr_half, "08:d4:2b", 9) == 0 ||
+        strncasecmp(mac_addr_half, "b8:c6:8e", 9) == 0 ||
+        strncasecmp(mac_addr_half, "a8:06:00", 9) == 0 ||
         strncasecmp(mac_addr_half, "bc:20:a4", 9) == 0 ||
-        strncasecmp(mac_addr_half, "28:CC:01", 9) == 0 ||
-        strncasecmp(mac_addr_half, "00:37:6d", 9) == 0 ||
+        strncasecmp(mac_addr_half, "98:52:b1", 9) == 0 ||
+        strncasecmp(mac_addr_half, "28:cc:01", 9) == 0 ||
+        strncasecmp(mac_addr_half, "d8:57:ef", 9) == 0 ||
+        strncasecmp(mac_addr_half, "74:45:8a", 9) == 0 ||
+        strncasecmp(mac_addr_half, "08:37:3d", 9) == 0 ||
+        strncasecmp(mac_addr_half, "bc:72:b1", 9) == 0 ||
         strncasecmp(mac_addr_half, "fc:c2:de", 9) == 0) {
         type = MURATA;
     }
