@@ -177,7 +177,7 @@ static int gralloc_alloc_buffer(alloc_device_t* dev, size_t size, int usage,
 #ifdef  INSIGNAL_FIMC1
         if (usage & GRALLOC_USAGE_HW_ION) {
 #else
-        if (usage & GRALLOC_USAGE_HW_ION || usage & GRALLOC_USAGE_HW_FIMC1) {
+        if (usage & GRALLOC_USAGE_HW_FB) {
 #endif
             if (!ion_dev_open) {
                 ALOGE("ERROR, failed to open ion");
@@ -222,7 +222,7 @@ static int gralloc_alloc_buffer(alloc_device_t* dev, size_t size, int usage,
             ump_mem_handle = ump_ref_drv_allocate(size, UMP_REF_DRV_CONSTRAINT_NONE);
 #endif
         if (UMP_INVALID_MEMORY_HANDLE != ump_mem_handle) {
-            if (!(usage & GRALLOC_USAGE_HW_ION || usage & GRALLOC_USAGE_HW_FIMC1))
+            if (!(usage & GRALLOC_USAGE_HW_FB))
                 cpu_ptr = ump_mapped_pointer_get(ump_mem_handle);
             if (NULL != cpu_ptr) {
                 ump_id = ump_secure_id_get(ump_mem_handle);
@@ -388,7 +388,7 @@ static int alloc_device_alloc(alloc_device_t* dev, int w, int h, int format,
 #ifdef  INSIGNAL_FIMC1
             if (usage & GRALLOC_USAGE_HW_FIMC1) {
 #else
-            if (usage & GRALLOC_USAGE_HW_ION || usage & GRALLOC_USAGE_HW_FIMC1) {
+            if (usage & GRALLOC_USAGE_HW_FB) {
 #endif
                 size += PAGE_SIZE * 2;
             }
@@ -538,3 +538,4 @@ int alloc_device_open(hw_module_t const* module, const char* name, hw_device_t**
 
     return 0;
 }
+

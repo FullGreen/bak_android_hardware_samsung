@@ -158,7 +158,7 @@ OMX_ERRORTYPE SEC_OSAL_LockANBHandle(
     case OMX_SEC_COLOR_FormatYUV420Planar_TB_RL:
 #endif
     case OMX_SEC_COLOR_FormatANBYUV420SemiPlanar:
-        usage = GRALLOC_USAGE_SW_READ_OFTEN | GRALLOC_USAGE_SW_WRITE_OFTEN | GRALLOC_USAGE_YUV_ADDR;
+        usage = GRALLOC_USAGE_SW_READ_OFTEN | GRALLOC_USAGE_SW_WRITE_OFTEN;
         break;
     default:
         usage = GRALLOC_USAGE_SW_READ_OFTEN | GRALLOC_USAGE_SW_WRITE_OFTEN;
@@ -215,11 +215,9 @@ OMX_ERRORTYPE SEC_OSAL_GetPhysANBHandle(
 
     SEC_OSAL_Log(SEC_LOG_TRACE, "%s: handle: 0x%x", __func__, handle);
 
-    if (mapper.getphys(bufferHandle, paddr) != 0) {
         SEC_OSAL_Log(SEC_LOG_ERROR, "%s: mapper.getphys() fail", __func__);
         ret = OMX_ErrorUndefined;
         goto EXIT;
-    }
 
 EXIT:
     FunctionOut();

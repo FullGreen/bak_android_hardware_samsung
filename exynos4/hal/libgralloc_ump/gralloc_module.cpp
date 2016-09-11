@@ -388,11 +388,6 @@ static int gralloc_lock(gralloc_module_t const* module, buffer_handle_t handle,
     if (usage & (GRALLOC_USAGE_SW_READ_MASK | GRALLOC_USAGE_SW_WRITE_MASK))
         *vaddr = (void*)hnd->base;
 
-    if (usage & GRALLOC_USAGE_YUV_ADDR) {
-        vaddr[0] = (void*)hnd->base;
-        vaddr[1] = (void*)(hnd->base + hnd->uoffset);
-        vaddr[2] = (void*)(hnd->base + hnd->uoffset + hnd->voffset);
-    }
     return err;
 }
 
@@ -470,7 +465,6 @@ struct private_module_t HAL_MODULE_INFO_SYM =
         unregisterBuffer: gralloc_unregister_buffer,
         lock: gralloc_lock,
         unlock: gralloc_unlock,
-        getphys: gralloc_getphys,
         perform: NULL,
     },
     framebuffer: NULL,
