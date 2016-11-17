@@ -93,10 +93,8 @@ namespace android {
 #define OEM_SND_AUDIO_PATH_SPEAKER            0x07
 #define OEM_SND_AUDIO_PATH_HEADPHONE          0x08
 #define OEM_SND_AUDIO_PATH_BT_NSEC_OFF        0x09
-#define OEM_SND_AUDIO_PATH_MIC1               0x0A
-#define OEM_SND_AUDIO_PATH_MIC2               0x0B
-#define OEM_SND_AUDIO_PATH_BT_WB              0x0C
-#define OEM_SND_AUDIO_PATH_BT_WB_NSEC_OFF     0x0D
+#define OEM_SND_AUDIO_PATH_BT_WB  0x09
+#define OEM_SND_AUDIO_PATH_BT_WB_NSEC_OFF  0x0A
 #else
 #define OEM_SND_AUDIO_PATH_HANDSET      0x01
 #define OEM_SND_AUDIO_PATH_HEADSET      0x02
@@ -106,10 +104,8 @@ namespace android {
 #define OEM_SND_AUDIO_PATH_SPEAKER      0x06
 #define OEM_SND_AUDIO_PATH_HEADPHONE      0x07
 #define OEM_SND_AUDIO_PATH_BT_NSEC_OFF  0x08
-#define OEM_SND_AUDIO_PATH_MIC1 0x09
-#define OEM_SND_AUDIO_PATH_MIC2 0x0A
-#define OEM_SND_AUDIO_PATH_BT_WB  0x0B
-#define OEM_SND_AUDIO_PATH_BT_WB_NSEC_OFF  0x0C
+#define OEM_SND_AUDIO_PATH_BT_WB  0x09
+#define OEM_SND_AUDIO_PATH_BT_WB_NSEC_OFF  0x0A
 #endif
 
 //---------------------------------------------------------------------------
@@ -1200,10 +1196,6 @@ static char ConvertAudioPath(AudioPath path) {
             return OEM_SND_AUDIO_PATH_HEADPHONE;
         case SOUND_AUDIO_PATH_BLUETOOTH_NO_NR:
             return OEM_SND_AUDIO_PATH_BT_NSEC_OFF;
-        case SOUND_AUDIO_PATH_MIC1:
-            return OEM_SND_AUDIO_PATH_MIC1;
-        case SOUND_AUDIO_PATH_MIC2:
-            return OEM_SND_AUDIO_PATH_MIC2;
         case SOUND_AUDIO_PATH_BLUETOOTH_WB:
             return OEM_SND_AUDIO_PATH_BT_WB;
         case SOUND_AUDIO_PATH_BLUETOOTH_WB_NO_NR:
@@ -1263,6 +1255,9 @@ static void * RxReaderFunc(void *param) {
                 if (ret == 0 || !(errno == EAGAIN || errno == EINTR)) {
                     // fatal error or end-of-stream
                     if (client_prv->sock > 0) {
+                        // ril crashed
+                        SendRilResetNotiToATD(client_prv);
+                        
                         close(client_prv->sock);
                         client_prv->sock = -1;
                         client_prv->b_connect = 0;
@@ -1299,7 +1294,19 @@ static void * RxReaderFunc(void *param) {
 
     return NULL;
 }
-
+    
+static int SendRilResetNotiToATD(RilClientPrv *prv) {
+    const void *data = NULL;
+    RilOnUnsolicited unsol_func = NULL;
+        
+    // Find unsolicited response handler.
+    unsol_func = FindUnsolHandler(prv, (uint32_t)RIL_UNSOL_UART);
+    if (unsol_func) {
+        unsol_func(prv->parent, (const void *)RIL_RESET, strlen(RIL_RESET));
+    }
+        
+    return RIL_CLIENT_ERR_SUCCESS;
+}
 
 static int processUnsolicited(RilClientPrv *prv, Parcel &p) {
     int32_t resp_id, len;

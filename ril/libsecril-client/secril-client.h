@@ -10,7 +10,7 @@
 #define __SECRIL_CLIENT_H__
 
 #include <sys/types.h>
-//#include "SecProductFeature_RIL.h"
+//#include "SecProductFeature_RIL.h"   // OSS_C1
 
 #ifdef __cplusplus
 extern "C" {
@@ -145,8 +145,6 @@ typedef enum _AudioPath {
     SOUND_AUDIO_PATH_STEREO_BT,
     SOUND_AUDIO_PATH_HEADPHONE,
     SOUND_AUDIO_PATH_BLUETOOTH_NO_NR,
-    SOUND_AUDIO_PATH_MIC1,
-    SOUND_AUDIO_PATH_MIC2,
     SOUND_AUDIO_PATH_BLUETOOTH_WB,
     SOUND_AUDIO_PATH_BLUETOOTH_WB_NO_NR
 } AudioPath;
