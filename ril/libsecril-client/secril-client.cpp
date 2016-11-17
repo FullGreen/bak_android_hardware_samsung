@@ -1255,8 +1255,6 @@ static void * RxReaderFunc(void *param) {
                 if (ret == 0 || !(errno == EAGAIN || errno == EINTR)) {
                     // fatal error or end-of-stream
                     if (client_prv->sock > 0) {
-                        // ril crashed
-                        SendRilResetNotiToATD(client_prv);
                         
                         close(client_prv->sock);
                         client_prv->sock = -1;
@@ -1293,19 +1291,6 @@ static void * RxReaderFunc(void *param) {
     }
 
     return NULL;
-}
-    
-static int SendRilResetNotiToATD(RilClientPrv *prv) {
-    const void *data = NULL;
-    RilOnUnsolicited unsol_func = NULL;
-        
-    // Find unsolicited response handler.
-    unsol_func = FindUnsolHandler(prv, (uint32_t)RIL_UNSOL_UART);
-    if (unsol_func) {
-        unsol_func(prv->parent, (const void *)RIL_RESET, strlen(RIL_RESET));
-    }
-        
-    return RIL_CLIENT_ERR_SUCCESS;
 }
 
 static int processUnsolicited(RilClientPrv *prv, Parcel &p) {
